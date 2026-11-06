@@ -1,0 +1,14 @@
+name: knn-paralelo
+channels:
+  - conda-forge
+dependencies:
+  - python=3.12
+  - numpy=2.*
+  - numba
+  - scipy
+  - scikit-learn
+  - pandas
+  - matplotlib
+  - openmpi
+  - mpi4py
+  - pytest

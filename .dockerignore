@@ -1,0 +1,5 @@
+datos/*
+!datos/.gitkeep
+resultados/
+.git
+__pycache__

@@ -1,0 +1,9 @@
+datos/*
+!datos/.gitkeep
+__pycache__/
+*.pyc
+.pytest_cache/
+*.nbi
+*.nbc
+.ipynb_checkpoints/
+resultados/_*/
