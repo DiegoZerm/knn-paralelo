@@ -1,0 +1,60 @@
+{
+  "fecha": "2026-11-06 03:46",
+  "equipo": "AMD Ryzen 5 3550H with Radeon Vega Mobile Gfx",
+  "carrera": {
+    "p": 4,
+    "corridas": [
+      {
+        "nombre": "Secuencial (1 núcleo)",
+        "t": 25.340640953003458,
+        "huella": "56043b16668f313e"
+      },
+      {
+        "nombre": "numba con 4 hilos",
+        "t": 6.721127594999416,
+        "huella": "56043b16668f313e"
+      },
+      {
+        "nombre": "MPI con 4 procesos",
+        "t": 6.900275072999648,
+        "huella": "56043b16668f313e"
+      }
+    ]
+  },
+  "recomendaciones": {
+    "usuario": 42,
+    "vecinos": [
+      [
+        4291,
+        0.5817669133313373
+      ],
+      [
+        949,
+        0.5772349651289729
+      ],
+      [
+        4006,
+        0.5535495572209096
+      ]
+    ],
+    "gustos": [
+      "Powder (1995)",
+      "Star Wars: Episode IV - A New Hope (1977)",
+      "Forrest Gump (1994)",
+      "Jurassic Park (1993)",
+      "Blade Runner (1982)"
+    ],
+    "recs": [
+      "Braveheart (1995)",
+      "Saving Private Ryan (1998)",
+      "Starship Troopers (1997)",
+      "Rocky Horror Picture Show, The (1975)",
+      "Alien: Resurrection (1997)",
+      "Army of Darkness (1993)",
+      "Honey, I Shrunk the Kids (1989)",
+      "Arachnophobia (1990)",
+      "Predator 2 (1990)",
+      "Monty Python and the Holy Grail (1974)"
+    ]
+  }
+}

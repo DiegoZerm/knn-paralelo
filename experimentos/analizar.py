@@ -200,7 +200,7 @@ def fig_modelo(r, modelo, etiqueta, carpeta, fisicos):
         d = r[r.version == v]
         ax.plot(d.p, d.S, color=COLOR[v], marker=MARCADOR[v], label=f"Real, {NOMBRE[v]}")
     ax.set_ylabel("Speedup")
-    ax.set_title(f"El hardware explica la curva: {etiqueta}")
+    ax.set_title(f"Modelo de hardware contra medición: {etiqueta}")
     _eje_p(ax, ps, fisicos)
     ax.set_ylim(bottom=0)
     ax.legend(loc="lower right", fontsize=9)

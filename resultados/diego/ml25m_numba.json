@@ -1,0 +1,1 @@
+{"version": "numba", "p": 8, "n": 162541, "estrategia": "trabajo", "capa_hilos": "omp", "t_carga": 0.3174782869973569, "pares": 13209707070, "t_calculo": 2470.380129492998, "t_combinar": 0.3908804050006438, "t_ordenar": 0.27861162499903, "t_total": 2471.0496215229978, "rss_mb": 1186.9140625, "huella": "2120f7d5e90516ee"}
