@@ -109,5 +109,6 @@ Si la carpeta de resultados queda a nombre de root:
 ## Antes de la presentación
 
 El profesor puede preguntarle a cualquiera sobre cualquier parte del código, y quien no
-pueda explicar su parte pierde esos puntos. Lee el README y la guía de preguntas en
-`docs/PREGUNTAS.md`, que se agrega al repo antes del ensayo del lunes.
+pueda explicar su parte pierde esos puntos. Estudia
+[`docs/PREGUNTAS.md`](PREGUNTAS.md): tiene el reparto de la presentación y las preguntas con
+respuesta. El análisis completo está en [`docs/ANALISIS.md`](ANALISIS.md).
