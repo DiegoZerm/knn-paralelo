@@ -53,11 +53,11 @@ exactas usadas en las mediciones.
 | `secuencial/` | Versión con ciclos; es la referencia de tiempo y de correctitud |
 | `paralelo_numba/` | Memoria compartida con hilos y `prange` |
 | `paralelo_mpi/` | Memoria distribuida con mpi4py y combinación de top-k en árbol |
-| `experimentos/` | Orquestador, análisis, verificación, calidad y comparación entre máquinas |
+| `experimentos/` | Orquestador, análisis, verificación, calidad, control aleatorizado de MPI y comparación entre máquinas |
 | `resultados/` | CSV crudos, figuras y resumen de cada máquina |
 | `tests/` | Correctitud contra scikit-learn, entre versiones y en casos borde |
 | `demo/` | Demo en vivo y respaldo |
-| `docs/` | Análisis, guía del equipo y preparación de preguntas |
+| `docs/` | [Análisis](docs/ANALISIS.md), [guía para replicar](docs/GUIA_EQUIPO.md) y [preparación de preguntas](docs/PREGUNTAS.md) |
 
 ## Diseño
 
@@ -78,6 +78,12 @@ huella SHA-256.
 
 **Reparto por trabajo.** Una fila temprana del triángulo compara contra casi todos los
 usuarios. Las fronteras de los bloques se eligen para igualar el costo estimado.
+
+## Resultados
+
+El análisis completo, con la interpretación de por qué no escala más, está en
+[docs/ANALISIS.md](docs/ANALISIS.md). En ML-1M con numba: T₁ = 24.9 s, S(4) = 3.84 y
+S(8) = 5.30; las tres versiones dan exactamente el mismo resultado.
 
 ## Metodología de medición
 
