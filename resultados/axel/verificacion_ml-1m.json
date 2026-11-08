@@ -1,0 +1,10 @@
+{
+  "dataset": "ml-1m",
+  "usuarios": 6040,
+  "k": 50,
+  "error_max_similitud": 1.6653345369377348e-14,
+  "vecinos_comparados": 302000,
+  "vecinos_distintos": 80,
+  "vecinos_distintos_por_empate": 80,
+  "correcto": true
+}
