@@ -57,7 +57,7 @@ def main():
             })
         c = ds["curvas"]["numba"]
         maximo = max(maximo, max(c["p"]))
-        ax.plot(c["p"], c["S"], color=SERIES[i % 8], marker=MARCADORES[i % 8], label=f"{nombre}: {esp['cpu'][:28]}")
+        ax.plot(c["p"], c["S"], color=SERIES[i % 8], marker=MARCADORES[i % 8], label=f"{nombre}: {esp['cpu'].split(' with ')[0]}")
     ax.plot([1, maximo], [1, maximo], color=NEUTRO, ls="--", lw=1.5, label="Ideal")
     ax.set_xlabel("Núcleos asignados (p)")
     ax.set_ylabel("Speedup (cada máquina contra su propio T₁)")
