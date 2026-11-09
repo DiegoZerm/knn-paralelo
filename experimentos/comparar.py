@@ -11,7 +11,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-from analizar import COLOR, NEUTRO, RAIZ, ajustar_f, plt, _guardar, tabla_md  # noqa: F401
+from analizar import nombre_cpu, COLOR, NEUTRO, RAIZ, ajustar_f, plt, _guardar, tabla_md  # noqa: F401
 
 SERIES = ["#2a78d6", "#eb6834", "#1baf7a", "#eda100", "#e87ba4", "#008300", "#6250d6", "#e34948"]
 MARCADORES = ["o", "s", "D", "^", "v", "P", "X", "*"]
@@ -49,7 +49,7 @@ def main():
             en_fisicos = [j for j, q in enumerate(c["p"]) if q <= esp["nucleos_fisicos"]]
             j = en_fisicos[-1]
             filas.append({
-                "equipo": nombre, "cpu": esp["cpu"], "nucleos": f"{esp['nucleos_fisicos']}/{esp['cpus_visibles']}",
+                "equipo": nombre, "cpu": nombre_cpu(esp), "nucleos": f"{esp['nucleos_fisicos']}/{esp['cpus_visibles']}",
                 "ram": esp["ram_gb"], "entorno": esp["entorno"], "version": v, "t1": ds["t1"],
                 "p": c["p"][j], "S": c["S"][j], "E": c["E"][j],
                 "Smax": max(c["S"]), "f": ds["f_fisicos"][v], "huella": huella_ml1m(carpeta),
@@ -57,7 +57,7 @@ def main():
             })
         c = ds["curvas"]["numba"]
         maximo = max(maximo, max(c["p"]))
-        ax.plot(c["p"], c["S"], color=SERIES[i % 8], marker=MARCADORES[i % 8], label=f"{nombre}: {esp['cpu'].split(' with ')[0]}")
+        ax.plot(c["p"], c["S"], color=SERIES[i % 8], marker=MARCADORES[i % 8], label=f"{nombre}: {nombre_cpu(esp).split(' with ')[0]}")
     ax.plot([1, maximo], [1, maximo], color=NEUTRO, ls="--", lw=1.5, label="Ideal")
     ax.set_xlabel("Núcleos asignados (p)")
     ax.set_ylabel("Speedup (cada máquina contra su propio T₁)")

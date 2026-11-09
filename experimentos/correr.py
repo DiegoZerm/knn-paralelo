@@ -251,7 +251,8 @@ def medir_banda(destino, logicos):
 def especificaciones(equipo):
     def salida(*cmd):
         try:
-            return subprocess.run(cmd, capture_output=True, text=True, timeout=20).stdout.strip()
+            return subprocess.run(cmd, capture_output=True, text=True, timeout=20,
+                                  env={**os.environ, "LC_ALL": "C"}).stdout.strip()
         except (OSError, subprocess.SubprocessError):
             return ""
 

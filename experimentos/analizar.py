@@ -38,6 +38,18 @@ plt.rcParams.update({
 })
 
 
+
+def nombre_cpu(esp):
+    """Modelo del CPU; si lscpu salió en otro idioma, lo busca en su salida completa."""
+    cpu = esp.get("cpu", "")
+    if cpu and cpu not in ("x86_64", "aarch64", ""):
+        return cpu
+    for linea in esp.get("lscpu", "").splitlines():
+        clave, _, valor = linea.partition(":")
+        if clave.strip() in ("Model name", "Nombre del modelo") and valor.strip():
+            return valor.strip()
+    return cpu or "desconocido"
+
 def amdahl(p, f):
     return 1.0 / ((1.0 - f) + f / p)
 
@@ -294,7 +306,7 @@ def main():
     correcto = bool((huellas == 1).all())
 
     md = [f"# Resultados de {args.equipo}", "",
-          f"**Equipo:** {esp['cpu']}, {fisicos} núcleos físicos, {esp['cpus_visibles']} CPUs lógicas, "
+          f"**Equipo:** {nombre_cpu(esp)}, {fisicos} núcleos físicos, {esp['cpus_visibles']} CPUs lógicas, "
           f"{esp['ram_gb']} GB, {esp['entorno']}.", "",
           f"**Correctitud:** {'todas las versiones coinciden' if correcto else 'HAY HUELLAS DISTINTAS'} "
           f"en {len(huellas)} configuraciones de datos ({len(df)} mediciones).", ""]
