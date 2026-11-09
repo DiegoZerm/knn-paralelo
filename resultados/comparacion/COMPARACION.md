@@ -6,6 +6,8 @@
 |---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
 | axel | AMD Ryzen 5 4600H with Radeon Graphics | 6/12 | 7.4 | wsl | numba | 23.9 | 6 | 4.91 | 0.82 | 7.60 | 0.9549 | 18.8 |
 | axel | AMD Ryzen 5 4600H with Radeon Graphics | 6/12 | 7.4 | wsl | mpi | 23.9 | 6 | 3.82 | 0.64 | 6.34 | 0.8798 | 18.8 |
+| cesar | Intel(R) Core(TM) i5-8365U CPU @ 1.60GHz | 4/8 | 30.4 | nativo | numba | 41.6 | 4 | 3.09 | 0.77 | 3.80 | 0.9023 | 20.6 |
+| cesar | Intel(R) Core(TM) i5-8365U CPU @ 1.60GHz | 4/8 | 30.4 | nativo | mpi | 41.6 | 4 | 2.95 | 0.74 | 3.38 | 0.8853 | 20.6 |
 | diego | AMD Ryzen 5 3550H with Radeon Vega Mobile Gfx | 4/8 | 22.9 | nativo | numba | 24.9 | 4 | 3.84 | 0.96 | 5.30 | 0.9880 | 13.2 |
 | diego | AMD Ryzen 5 3550H with Radeon Vega Mobile Gfx | 4/8 | 22.9 | nativo | mpi | 24.9 | 4 | 3.62 | 0.91 | 4.80 | 0.9686 | 13.2 |
 | irvingjaimez | AMD Ryzen 7 7435HS | 8/16 | 15.4 | nativo | numba | 18.9 | 8 | 6.74 | 0.84 | 8.92 | 0.9713 | 31.2 |
