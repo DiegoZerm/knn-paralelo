@@ -42,7 +42,7 @@ plt.rcParams.update({
 def nombre_cpu(esp):
     """Modelo del CPU; si lscpu salió en otro idioma, lo busca en su salida completa."""
     cpu = esp.get("cpu", "")
-    if cpu and cpu not in ("x86_64", "aarch64", ""):
+    if cpu not in ("x86_64", "aarch64", "desconocido", "unknown", ""):
         return cpu
     for linea in esp.get("lscpu", "").splitlines():
         clave, _, valor = linea.partition(":")
