@@ -16,12 +16,14 @@ un minuto. Si no puedes, abre el archivo que se indica y vuelve a intentarlo.
 
 ## 1. Reparto: 10 minutos y 5 de preguntas
 
-| Quién | Tema | Min | Archivos que debe conocer a fondo |
-|---|---|---:|---|
-| Irving | Problema, datos y diseño del kernel | 2.5 | `comun/datos.py`, `comun/nucleo.py`, `secuencial/` |
-| César | numba y MPI; cómo se combinan los top-k | 2.5 | `paralelo_numba/`, `paralelo_mpi/` |
-| Axel | Metodología, experimentos y comparación entre máquinas | 2.5 | `experimentos/correr.py`, `analizar.py`, `comparar.py` |
-| Diego | Interpretación, conclusiones y demo en vivo | 2.5 | `docs/ANALISIS.md`, `demo/demo.py` |
+| Quién | Diapositivas | Tema | Min | Archivos que debe conocer a fondo |
+|---|---|---|---:|---|
+| Irving | 1–4 | Problema, datos, diseño del kernel y correctitud | 2.5 | `comun/datos.py`, `comun/nucleo.py`, `secuencial/` |
+| César | 5–8 | numba, MPI, reparto del triángulo y memoria con ML-25M | 2.5 | `paralelo_numba/`, `paralelo_mpi/`, `repartir` en `comun/nucleo.py`, `docs/ANALISIS.md` §6 y §8 |
+| Axel | 9–12 | Metodología, speedup, comparación entre máquinas y calidad | 2.5 | `experimentos/correr.py`, `analizar.py`, `comparar.py`, `calidad.py`, `docs/ANALISIS.md` §11 |
+| Diego | 13–18 | Interpretación, demo en vivo y conclusiones | 2.5 | `docs/ANALISIS.md`, `demo/demo.py` |
+
+La diapositiva 15 (modelo de hardware) se salta si vamos tarde.
 
 ---
 
@@ -40,6 +42,9 @@ un minuto. Si no puedes, abre el archivo que se indica y vuelve a intentarlo.
   un núcleo rinden 1.45 veces uno, no el doble. Además, la frecuencia baja al usar más
   núcleos.
 - **La fracción serial medida es mínima:** f = 0.9996, así que Amdahl no es lo que limita.
+- **Cuatro máquinas, el mismo resultado:** la huella `56043b16668f313e` sale igual en las
+  cuatro. La más rápida es la de Irving (8 núcleos, S = 8.92 con 16 hilos); la más lenta, la
+  de César (i5 de bajo consumo, T₁ = 41.6 s). En todas la curva se aplana al pasar a SMT.
 - **Reto extra:** ML-25M necesitaría una matriz de 105.7 GB. Con top-k por bloques corrió en
   41 minutos usando 1.19 GB.
 - **Uso de IA:** se usó Claude Code para desarrollar código, experimentos y documentación.
@@ -231,7 +236,37 @@ crece con √p). Lo ideal es que el tiempo no cambie. La eficiencia fue de 86 % 
 **¿Para qué replicaron en varias máquinas?**
 Para separar lo que depende del algoritmo de lo que depende del hardware. Cada máquina usa su
 propio T₁. Los tiempos absolutos dicen qué máquina es más rápida; el speedup dice cuál
-paraleliza mejor. Ver `resultados/comparacion/`.
+paraleliza mejor. Ver `resultados/comparacion/` y `docs/ANALISIS.md` §11.
+
+**¿Qué salió en las cuatro máquinas?**
+Misma huella en las cuatro. Con numba, en todos los núcleos físicos: Irving 6.74 con 8,
+Axel 4.91 con 6, Diego 3.84 con 4 y César 3.09 con 4. Con todos los hilos: 8.92, 7.60, 5.30
+y 3.80. Las otras tres máquinas usaron 3 repeticiones y solo ML-1M.
+
+**¿Qué se repite en todas?**
+f medido de 0.9996 o 0.9997; la curva se aplana después de los núcleos físicos; dos hilos
+del mismo núcleo rinden de 1.35 a 1.45 veces uno en las máquinas con Linux nativo; la
+frecuencia baja al agregar núcleos; y el reparto por filas iguales sigue la teoría.
+
+**¿Por qué la máquina de César es la más lenta?**
+Es un Core i5-8365U, de bajo consumo para laptops delgadas, y su frecuencia es la más baja:
+2,660 MHz con un núcleo y 2,248 con cuatro. Escala menos de lo que predice el modelo (3.09
+contra 3.38). No sabemos la causa: puede ser límite de potencia o temperatura, o ruido por
+ser 3 repeticiones.
+
+**¿Por qué en la máquina de Irving MPI escala tan mal?**
+Con p = 8, MPI llega a 3.58 y numba a 6.74. Los sensores muestran que con MPI la frecuencia
+es menor en todos los p, incluso con un solo proceso (3,620 contra 4,214 MHz). No sabemos
+por qué baja más con MPI en esa máquina; en las otras no pasa.
+
+**¿Por qué en la máquina de Axel no se nota SMT?**
+Corrió en WSL. Dos hilos "hermanos" tardaron lo mismo que dos núcleos distintos. Nuestra
+hipótesis, sin comprobar: en WSL los CPU son virtuales y Windows decide dónde corren, así
+que `taskset` no controla el núcleo real. WSL tampoco muestra la frecuencia.
+
+**Entonces, ¿qué máquina es mejor?**
+Para tiempo absoluto, la de Irving: T₁ de 18.9 s y 2.1 s con 16 hilos. En eficiencia por
+núcleo físico, la de Diego (0.96), porque su frecuencia baja menos.
 
 ### F. Interpretación (Diego; todos deben entender la idea)
 
@@ -328,6 +363,9 @@ así que tomaría alrededor de 45 minutos. Es una **estimación**, no una medici
 | "En Goodbooks escala mejor porque…" | "Escala mejor; no medimos la causa" |
 | Speedup de ML-25M | "En ML-25M demostramos viabilidad y memoria, no speedup" |
 | "Funciona en un clúster" | "La versión con Bcast no supone memoria compartida, pero no la probamos en varias máquinas" |
+| "En WSL no hay SMT" o "MPI está mal en la máquina de Irving" | "Lo medimos así; la causa es una hipótesis que no comprobamos" |
+| "La máquina de César es mala para paralelizar" | "Es la que menos escala; la frecuencia explica parte, el resto no lo medimos" |
+| Comparar las 4 máquinas como si fueran igual de precisas | "Las otras tres usaron 3 repeticiones y solo ML-1M" |
 | Cualquier número que no recuerden | "Está en `docs/ANALISIS.md`" y mostrarlo |
 
 ---

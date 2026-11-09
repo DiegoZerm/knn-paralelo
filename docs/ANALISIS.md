@@ -4,7 +4,7 @@ Este documento explica **cuánto** mejora el KNN al paralelizarlo y, sobre todo,
 escala más**. Todas las cifras salen de archivos del repositorio; las hipótesis que no
 pudimos comprobar se señalan como tales.
 
-**Equipo de medición:** AMD Ryzen 5 3550H, 4 núcleos físicos y 8 lógicos (SMT), L3 de 4 MiB,
+**Equipo de medición principal:** AMD Ryzen 5 3550H, 4 núcleos físicos y 8 lógicos (SMT), L3 de 4 MiB,
 22.9 GB de RAM, Linux nativo, laptop conectada a la corriente. Python 3.12, numba 0.68.1,
 mpi4py 4.1.2, Open MPI 5.0.11. Especificaciones completas en
 [`resultados/diego/especificaciones.json`](../resultados/diego/especificaciones.json).
@@ -21,7 +21,8 @@ mpi4py 4.1.2, Open MPI 5.0.11. Especificaciones completas en
 | `verificacion_*.json`, `calidad_ml-1m.json` | Correctitud y calidad de recomendaciones |
 | `banda_memoria.csv`, `banda_repeticiones.csv` | Ancho de banda de memoria |
 
-Todos están en `resultados/diego/`.
+Todos están en `resultados/diego/`. Los resultados de las otras tres máquinas están en
+`resultados/<nombre>/` y su comparación en `resultados/comparacion/` (sección 11).
 
 ---
 
@@ -314,9 +315,70 @@ recomendador.
 
 ---
 
-## 11. Conclusiones
+## 11. Comparación entre las cuatro máquinas
+
+Cada integrante clonó el repositorio y corrió `./replicar.sh` en su computadora. Las otras
+tres máquinas usaron el perfil rápido: solo ML-1M y 3 repeticiones por punto, contra 5 en la
+de Diego, así que sus cifras tienen más ruido. Fuente:
+[`resultados/comparacion/COMPARACION.md`](../resultados/comparacion/COMPARACION.md).
+
+**Correctitud:** las cuatro máquinas dan la misma huella, `56043b16668f313e`, en todas sus
+corridas de ML-1M, y las cuatro coinciden con scikit-learn (80 vecinos distintos, todos por
+empate). El resultado es idéntico en tres procesadores AMD y uno Intel.
+
+| Máquina | Procesador | Núcleos/hilos | Entorno | T₁ (s) | numba S(físicos) | numba S(máx.) | MPI S(máx.) |
+|---|---|---|---|---:|---:|---:|---:|
+| Irving | Ryzen 7 7435HS | 8/16 | Linux | 18.9 | 6.74 (p = 8) | 8.92 (p = 16) | 5.24 |
+| Axel | Ryzen 5 4600H | 6/12 | WSL | 23.9 | 4.91 (p = 6) | 7.60 (p = 12) | 6.34 |
+| Diego | Ryzen 5 3550H | 4/8 | Linux | 24.9 | 3.84 (p = 4) | 5.30 (p = 8) | 4.80 |
+| César | Core i5-8365U | 4/8 | Linux | 41.6 | 3.09 (p = 4) | 3.80 (p = 8) | 3.38 |
+
+![Speedup por máquina](../resultados/comparacion/speedup_por_equipo.png)
+
+### 11.1 Lo que se repite
+
+- **La fracción paralela medida por fases** es 0.9996 o 0.9997 en las cuatro. En ninguna
+  máquina el límite es código serial.
+- **SMT no duplica.** En las tres máquinas con Linux nativo, dos hilos del mismo núcleo
+  rinden de 1.35 a 1.45 veces uno: G = 1.45 (Diego), 1.43 (Irving) y 1.35 (César). En todas,
+  la curva se aplana al pasar de núcleos físicos a hilos.
+- **La frecuencia baja al agregar núcleos.** Con numba, de p = 1 a todos los núcleos físicos:
+  −7.4 % en la de Diego, −15.5 % en la de César y −21 % en la de Irving.
+- **El reparto por filas iguales sigue la teoría** con numba en las cuatro: en p = 2,
+  S = 1.31 a 1.34 contra 1.33 teórico.
+- **numba es igual o más rápido que MPI** en las cuatro.
+
+### 11.2 Lo que cambia, y lo que no sabemos explicar
+
+**Más núcleos, más speedup, pero no más eficiencia.** La máquina de Irving llega a 8.92 con
+16 hilos, pero su eficiencia en núcleos físicos (0.84) es menor que la de Diego (0.96),
+porque su frecuencia baja más: de 4,214 a 3,320 MHz.
+
+**César: la más lenta y la que menos escala.** Su T₁ es de 41.6 s y su frecuencia es la más
+baja, de 2,660 MHz con un núcleo a 2,248 con cuatro. Es un procesador de bajo consumo para
+laptops delgadas. El modelo de hardware predice S(4) = 3.38 y medimos 3.09; la diferencia
+no la explica la frecuencia medida. **Hipótesis sin comprobar:** límite de potencia o
+temperatura del chip, o ruido por ser solo 3 repeticiones (la desviación estándar en p = 4
+es de 0.86 s).
+
+**Irving: MPI escala mucho peor que numba.** Con p = 8, MPI llega a 3.58 y numba a 6.74. El
+registro de sensores muestra que con MPI la frecuencia es menor en todos los p: 3,620 contra
+4,214 MHz con p = 1, y 2,420 contra 3,320 con p = 8. Por eso MPI ya es más lento con un solo
+proceso (21.4 contra 18.5 s). **No sabemos por qué la frecuencia baja más con MPI** en esa
+máquina; no se vio en las otras.
+
+**Axel (WSL): no aparece la penalización de SMT.** Dos trabajadores fijados a los hilos
+hermanos tardan 12.96 s, igual que en núcleos distintos (12.76 s). **Hipótesis:** en WSL los
+CPU que ve Linux son virtuales y Windows decide en qué núcleo real corre cada uno, así que
+`taskset` no controla la colocación. WSL tampoco expone la frecuencia, por lo que en esa
+máquina no se puede revisar esa explicación.
+
+---
+
+## 12. Conclusiones
 
 1. **El paralelismo funciona:** S(4) = 3.84 y S(8) = 5.30 en ML-1M; 3.94 y 5.84 en Goodbooks.
+   En la máquina de Irving, con 8 núcleos, llega a 8.92.
 2. **La pérdida no es código serial:** f = 0.9996 medido. Se explica con mediciones
    independientes de hardware: frecuencia hasta 4 núcleos, y después SMT con reparto
    estático.
@@ -326,12 +388,14 @@ recomendador.
    de MPI cuando hay desbalance. Duplicar datos cuesta poco.
 5. **La estrategia por bloques con top-k** hace viable un problema que no cabe en memoria:
    de 105.7 GB a 1.19 GB, con el mismo resultado.
+6. **Se reproduce en cuatro máquinas:** misma huella en las cuatro, y en todas la curva se
+   aplana al pasar de núcleos físicos a hilos SMT.
 
 **Pendiente sin explicar:** por qué numba supera al modelo con p = 6, la variación del ancho
-de banda y el ~2 % restante entre MPI y numba.
+de banda, el ~2 % restante entre MPI y numba, la baja de frecuencia con MPI en la máquina de
+Irving y la eficiencia menor que la del modelo en la de César.
 
 **Trabajo futuro:**
 - Reparto dinámico para SMT.
 - MPI híbrido con hilos.
-- Medir en las máquinas de los demás integrantes; la comparación estará en
-  `resultados/comparacion/`.
+- Repetir las mediciones de las otras tres máquinas con 5 repeticiones y Goodbooks.

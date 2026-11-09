@@ -85,6 +85,10 @@ El análisis completo, con la interpretación de por qué no escala más, está 
 [docs/ANALISIS.md](docs/ANALISIS.md). En ML-1M con numba: T₁ = 24.9 s, S(4) = 3.84 y
 S(8) = 5.30; las tres versiones dan exactamente el mismo resultado.
 
+Los cuatro integrantes replicaron el sistema en sus computadoras (de 4 a 8 núcleos, AMD e
+Intel): las cuatro dan la misma huella y en la de 8 núcleos el speedup llega a 8.92. La
+comparación está en [resultados/comparacion/](resultados/comparacion/COMPARACION.md).
+
 ## Metodología de medición
 
 - `T₁` es la versión secuencial **compilada**, no la de Python puro. Si no, el speedup
