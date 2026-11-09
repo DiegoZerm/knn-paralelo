@@ -1,0 +1,20 @@
+{
+  "equipo": "cesar",
+  "fecha": "2026-11-08 18:13:42",
+  "cpu": "desconocido",
+  "cpus_logicas": 8,
+  "nucleos_fisicos": 4,
+  "cpus_visibles": 8,
+  "ram_gb": 30.4,
+  "gpu": "",
+  "sistema": "Linux-7.0.0-42-generic-x86_64-desconocido-with-glibc2.43",
+  "entorno": "nativo",
+  "conectado_a_corriente": true,
+  "gobernador": "powersave",
+  "python": "3.12.16",
+  "numpy": "2.5.4",
+  "numba": "0.68.1",
+  "mpi4py": "4.1.2",
+  "mpi": "mpirun (Open MPI) 5.0.11",
+  "lscpu": "Arquitectura:                             x86_64\nmodo(s) de operación de las CPUs:         32-bit, 64-bit\nTamaños de las direcciones:               39 bits physical, 48 bits virtual\nOrden de los bytes:                       Little Endian\nCPU(s):                                   8\nLista de la(s) CPU(s) en línea:           0-7\nID de fabricante:                         GenuineIntel\nNombre del modelo:                        Intel(R) Core(TM) i5-8365U CPU @ 1.60GHz\nFamilia de CPU:                           6\nModelo:                                   142\nHilo(s) de procesamiento por núcleo:      2\nNúcleo(s) por «socket»:                   4\n«Socket(s)»:                              1\nRevisión:                                 12\nCPU(s) factor de escala MHz:              81%\nCPU MHz máx.:                             4100,0000\nCPU MHz mín.:                             400,0000\nBogoMIPS:                                 3799,90\nIndicadores:                              fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust sgx bmi1 avx2 smep bmi2 erms invpcid mpx rdseed adx smap clflushopt intel_pt xsaveopt xsavec xgetbv1 xsaves dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp vnmi md_clear flush_l1d arch_capabilities\nVirtualización:                           VT-x\nCaché L1d:                                128 KiB (4 instancias)\nCaché L1i:                                128 KiB (4 instancias)\nCaché L2:                                 1 MiB (4 instancias)\nCaché L3:                                 6 MiB (1 instancia)\nModo(s) NUMA:                             1\nCPU(s) del nodo NUMA 0:                   0-7\nVulnerabilidad Gather data sampling:      Vulnerable\nVulnerabilidad Ghostwrite:                Not affected\nVulnerabilidad Indirect target selection: Mitigation; Aligned branch/return thunks\nVulnerabilidad Itlb multihit:             KVM: Mitigation: Split huge pages\nVulnerabilidad L1tf:                      Not affected\nVulnerabilidad Mds:                       Not affected\nVulnerabilidad Meltdown:                  Not affected\nVulnerabilidad Mmio stale data:           Mitigation; Clear CPU buffers; SMT vulnerable\nVulnerabilidad Old microcode:             Not affected\nVulnerabilidad Reg file data sampling:    Not affected\nVulnerabilidad Retbleed:                  Mitigation; Enhanced IBRS\nVulnerabilidad Spec rstack overflow:      Not affected\nVulnerabilidad Spec store bypass:         Mitigation; Speculative Store Bypass disabled via prctl\nVulnerabilidad Spectre v1:                Mitigation; usercopy/swapgs barriers and __user pointer sanitization\nVulnerabilidad Spectre v2:                Mitigation; Enhanced / Automatic IBRS; IBPB conditional; PBRSB-eIBRS SW sequence; BHI SW loop, KVM SW loop\nVulnerabilidad Srbds:                     Mitigation; Microcode\nVulnerabilidad Tsa:                       Not affected\nVulnerabilidad Tsx async abort:           Mitigation; TSX disabled\nVulnerabilidad Vmscape:                   Mitigation; IBPB before exit to userspace"
+}
