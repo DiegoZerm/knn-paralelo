@@ -12,6 +12,8 @@ for base in "$HOME/miniforge3" "$HOME/mambaforge" "$HOME/miniconda3"; do
   fi
 done
 conda activate knn-paralelo
+# En Omarchy, mise pone su propio python antes que el de conda: se fuerza el del entorno.
+[ -n "${CONDA_PREFIX:-}" ] && PATH="$CONDA_PREFIX/bin:$PATH" && hash -r
 
 cd "${KNN_DIR:-$HOME/Work/knn-paralelo}"
 history -s "python demo/demo.py --respaldo"
