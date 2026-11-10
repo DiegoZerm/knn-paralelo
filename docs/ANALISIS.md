@@ -378,7 +378,7 @@ máquina no se puede revisar esa explicación.
 ## 12. Conclusiones
 
 1. **El paralelismo funciona:** S(4) = 3.84 y S(8) = 5.30 en ML-1M; 3.94 y 5.84 en Goodbooks.
-   En la máquina de Irving, con 8 núcleos, llega a 8.92.
+   En la máquina de Irving llega a 6.74 con sus 8 núcleos físicos y a 8.92 con 16 hilos.
 2. **La pérdida no es código serial:** f = 0.9996 medido. Se explica con mediciones
    independientes de hardware: frecuencia hasta 4 núcleos, y después SMT con reparto
    estático.
