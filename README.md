@@ -40,6 +40,7 @@ python secuencial/knn_secuencial.py --usuarios 500 --modo puro   # Python puro
 python paralelo_numba/knn_numba.py -p 4
 mpirun --bind-to none --oversubscribe -n 4 python paralelo_mpi/knn_mpi.py
 python demo/demo.py --usuario 42                          # demo de la presentación
+./demo/abrir_demo.sh HDMI-A-1                              # abre presentación, terminal y respaldo (Hyprland)
 ```
 
 `environment.yml` define las dependencias y `environment.lock.yml` guarda las versiones
