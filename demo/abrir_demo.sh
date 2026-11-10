@@ -13,7 +13,7 @@ set -u
 
 DEMO=$(cd "$(dirname "$0")" && pwd)
 export KNN_DIR=$(dirname "$DEMO")
-PRESENTACION="https://claude.ai/artifact/S5mp9CiQBn2nrVNBbGvuK3"
+PRESENTACION="https://claude.ai/artifact/Geqqpm9vUE6bLViZPNUR65"
 REPO="https://github.com/DiegoZerm/knn-paralelo"
 VIDEO=${KNN_VIDEO:-$HOME/Videos/knn-demo-respaldo.mp4}
 
